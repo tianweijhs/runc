@@ -95,7 +95,7 @@ function teardown() {
 
   runc exec --cwd /bin test_busybox pwd
   [ "$status" -eq 0 ]
-  [[ ${output} == "/bin" ]]
+  [[ ${output} == "/bin"* ]]
 }
 
 @test "runc exec --env" {
@@ -124,5 +124,5 @@ function teardown() {
   runc exec --user 1000:1000 test_busybox id
   [ "$status" -eq 0 ]
 
-  [[ ${output} == "uid=1000 gid=1000" ]]
+  [[ ${output} == "uid=1000 gid=1000"* ]]
 }
