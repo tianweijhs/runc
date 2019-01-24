@@ -20,12 +20,9 @@ env:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libseccomp-dev libapparmor-dev
-  - go get -u github.com/golang/lint/golint
-  - go get -u github.com/vbatts/git-validation
-  - go get -u github.com/mvdan/sh/cmd/shfmt
   - env | grep TRAVIS_
 
 script:
-  - git-validation -run DCO,short-subject -v
+  - cd ../.. && TARGET=$(ls -d */runc); mkdir opencontainers && cd opencontainers && ln -s ../${TARGET} runc && cd runc || true
   - make BUILDTAGS="${BUILDTAGS}"
   - make BUILDTAGS="${BUILDTAGS}" clean validate test
