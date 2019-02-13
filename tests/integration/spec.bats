@@ -64,30 +64,3 @@ function teardown() {
   runc run --bundle "$HELLO_BUNDLE" test_hello
   [ "$status" -eq 0 ]
 }
-
-@test "spec validator" {
-  TESTDIR=$(pwd)
-  cd "$HELLO_BUNDLE"
-
-  run git clone https://github.com/opencontainers/runtime-spec.git src/runtime-spec
-  [ "$status" -eq 0 ]
-
-  SPEC_COMMIT=$(grep '^github.com/opencontainers/runtime-spec' ${TESTDIR}/../../vendor.conf | cut -d ' ' -f 2)
-  run git -C src/runtime-spec reset --hard "${SPEC_COMMIT}"
-
-  [ "$status" -eq 0 ]
-  [ -e src/runtime-spec/schema/config-schema.json ]
-
-  run bash -c "GOPATH='$GOPATH' go get github.com/xeipuuv/gojsonschema"
-  [ "$status" -eq 0 ]
-
-  GOPATH="$GOPATH" go build src/runtime-spec/schema/validate.go
-  [ -e ./validate ]
-
-  runc spec
-  [ -e config.json ]
-
-  run ./validate src/runtime-spec/schema/config-schema.json config.json
-  [ "$status" -eq 0 ]
-  [[ "${lines[0]}" == *"The document is valid"* ]]
-}
