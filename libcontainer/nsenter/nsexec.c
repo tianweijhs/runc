@@ -439,7 +439,7 @@ void join_namespaces(char *nslist)
 }
 
 /* Defined in cloned_binary.c. */
-int ensure_cloned_binary(void);
+extern int ensure_cloned_binary(void);
 
 void nsexec(void)
 {
