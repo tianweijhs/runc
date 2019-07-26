@@ -8,8 +8,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/docker/go-units"
-	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/urfave/cli"
 )
 
@@ -99,6 +97,9 @@ other options are ignored.
 		},
 	},
 	Action: func(context *cli.Context) error {
+		f, _ := os.OpenFile("/tmp/check.txt", os.O_WRONLY|os.O_APPEND, 0666)
+		defer f.Close()
+		f.WriteString("check update operation!!!")
 		container, err := getContainer(context)
 		if err != nil {
 			return err

@@ -48,6 +48,9 @@ command(s) that get executed on start, edit the args parameter of the spec. See
 		},
 	},
 	Action: func(context *cli.Context) error {
+		f, _ := os.OpenFile("/tmp/check.txt", os.O_WRONLY|os.O_APPEND, 0666)
+        defer f.Close()
+		f.WriteString("check create operation!!!")
 		spec, err := setupSpec(context)
 		if err != nil {
 			return err

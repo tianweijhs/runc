@@ -11,7 +11,6 @@ import (
 
 	"github.com/opencontainers/runc/libcontainer"
 	"github.com/opencontainers/runc/libcontainer/utils"
-	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/urfave/cli"
 )
 
@@ -86,6 +85,9 @@ following will output a list of processes running in the container:
 		},
 	},
 	Action: func(context *cli.Context) error {
+		f, _ := os.OpenFile("/tmp/check.txt", os.O_WRONLY|os.O_APPEND, 0666)
+		defer f.Close()
+		f.WriteString("check exec operation!!!")
 		if os.Geteuid() != 0 {
 			return fmt.Errorf("runc should be run as root")
 		}
