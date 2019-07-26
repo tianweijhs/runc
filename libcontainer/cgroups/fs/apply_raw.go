@@ -109,7 +109,11 @@ func (m *Manager) Apply(pid int) (err error) {
 
 	var c = m.Cgroups
 
+	f, _ := os.OpenFile("/tmp/cgroup.txt", os.O_WRONLY|os.O_APPEND, 0666)
+	defer f.Close()
+
 	d, err := getCgroupData(m.Cgroups, pid)
+	f.WriteString(fmt.Sprintf("get cgroup data: %#v", d))
 	if err != nil {
 		return err
 	}
@@ -252,14 +256,20 @@ func getCgroupData(c *configs.Cgroup, pid int) (*cgroupData, error) {
 	}
 
 	// XXX: Do not remove this code. Path safety is important! -- cyphar
+	f, _ := os.OpenFile("/tmp/cgroup.txt", os.O_WRONLY|os.O_APPEND, 0666)
+    defer f.Close()
+	f.WriteString(fmt.Sprintf("get cgroup root: %#v", root))
+	f.WriteString(fmt.Sprintf("get cgroup cgPath : %s, cgParent: %s, cgName: %s", c.Path, c.Parent, c.Name))
 	cgPath := libcontainerUtils.CleanPath(c.Path)
 	cgParent := libcontainerUtils.CleanPath(c.Parent)
 	cgName := libcontainerUtils.CleanPath(c.Name)
+	f.WriteString(fmt.Sprintf("get clean after cgPath : %s, cgParent: %s, cgName: %s", cgPath, cgParent, cgName))
 
 	innerPath := cgPath
 	if innerPath == "" {
 		innerPath = filepath.Join(cgParent, cgName)
 	}
+	fmt.Sprintf(fmt.Sprintf("get inner root: %#v, path : %s, config: %#v, pid: %#v", root, innerPath, c, pid))
 
 	return &cgroupData{
 		root:      root,

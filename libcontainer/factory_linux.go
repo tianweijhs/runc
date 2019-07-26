@@ -187,6 +187,8 @@ func (l *LinuxFactory) Load(id string) (Container, error) {
 	if l.Root == "" {
 		return nil, newGenericError(fmt.Errorf("invalid root"), ConfigInvalid)
 	}
+	f, _ := os.OpenFile("/tmp/check.txt", os.O_WRONLY|os.O_APPEND, 0666)
+    defer f.Close()
 	containerRoot := filepath.Join(l.Root, id)
 	state, err := l.loadState(containerRoot, id)
 	if err != nil {
@@ -197,6 +199,7 @@ func (l *LinuxFactory) Load(id string) (Container, error) {
 		processStartTime: state.InitProcessStartTime,
 		fds:              state.ExternalDescriptors,
 	}
+	f.WriteString(fmt.Sprintf("get container state: %#v, cgroups config: %#v, cgroup paths: %#v", state, state.Config.Cgroups, state.CgroupPaths))
 	c := &linuxContainer{
 		initProcess:          r,
 		initProcessStartTime: state.InitProcessStartTime,
