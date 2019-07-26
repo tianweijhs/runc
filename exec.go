@@ -11,6 +11,7 @@ import (
 
 	"github.com/opencontainers/runc/libcontainer"
 	"github.com/opencontainers/runc/libcontainer/utils"
+	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/urfave/cli"
 )
 
