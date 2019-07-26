@@ -191,6 +191,7 @@ func (l *LinuxFactory) Load(id string) (Container, error) {
     defer f.Close()
 	containerRoot := filepath.Join(l.Root, id)
 	state, err := l.loadState(containerRoot, id)
+	f.WriteString(fmt.Sprintf("get state value : %#v", state))
 	if err != nil {
 		return nil, err
 	}

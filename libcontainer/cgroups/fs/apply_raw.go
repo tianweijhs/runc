@@ -113,6 +113,7 @@ func (m *Manager) Apply(pid int) (err error) {
 	defer f.Close()
 
 	d, err := getCgroupData(m.Cgroups, pid)
+	f.WriteString(fmt.Sprintf("get cgroupDate value %#v", d))
 	f.WriteString(fmt.Sprintf("get cgroup data: %#v", d))
 	if err != nil {
 		return err
