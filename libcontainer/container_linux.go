@@ -284,7 +284,7 @@ func (c *linuxContainer) start(process *Process, isInit bool) error {
 
 func (c *linuxContainer) Signal(s os.Signal, all bool) error {
 	if all {
-		return signalAllProcesses(c.cgroupManager, s)
+		//return signalAllProcesses(c.cgroupManager, s)
 	}
 	if err := c.initProcess.signal(s); err != nil {
 		return newSystemErrorWithCause(err, "signaling init process")

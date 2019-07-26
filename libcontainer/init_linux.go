@@ -338,7 +338,7 @@ func setOomScoreAdj(oomScoreAdj int, pid int) error {
 // killCgroupProcesses freezes then iterates over all the processes inside the
 // manager's cgroups sending a SIGKILL to each process then waiting for them to
 // exit.
-func signalAllProcesses(m cgroups.Manager, s os.Signal) error {
+func killCgroupProcesses(m cgroups.Manager) error {
 	var procs []*os.Process
 	if err := m.Freeze(configs.Frozen); err != nil {
 		logrus.Warn(err)
