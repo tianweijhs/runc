@@ -77,7 +77,8 @@ signal to the init process of the "ubuntu01" container:
 		if err != nil {
 			return err
 		}
-		if err := container.Signal(signal, context.Bool("all")); err != nil {
+
+		if err := container.Signal(signal); err != nil {
 			return err
 		}
 		return nil
