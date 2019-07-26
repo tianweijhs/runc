@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/opencontainers/runc/libcontainer"
 	"github.com/urfave/cli"
@@ -18,9 +17,6 @@ are starting. The name you provide for the container instance must be unique on
 your host.`,
 	Description: `The start command executes the user defined process in a created container.`,
 	Action: func(context *cli.Context) error {
-		f, _ := os.OpenFile("/tmp/check.txt", os.O_WRONLY|os.O_APPEND, 0666)
-		defer f.Close()
-		f.WriteString("check start operation!!!")
 		container, err := getContainer(context)
 		if err != nil {
 			return err
