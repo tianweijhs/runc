@@ -38,11 +38,8 @@ func (s *MemoryGroup) Apply(d *cgroupData) (err error) {
 				return err
 			}
 		}
-		if d.config.KernelMemory != 0 {
-			return fmt.Errorf("build an error!")
-			if err := EnableKernelMemoryAccounting(path); err != nil {
-				return err
-			}
+		if err := EnableKernelMemoryAccounting(path); err != nil {
+			return err
 		}
 	}
 	defer func() {
