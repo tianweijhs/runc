@@ -355,7 +355,7 @@ func signalAllProcesses(m cgroups.Manager, s os.Signal) error {
 			continue
 		}
 		procs = append(procs, p)
-		if err := p.Signal(s); err != nil {
+		if err := p.Kill(); err != nil {
 			logrus.Warn(err)
 		}
 	}
